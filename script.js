@@ -8,10 +8,16 @@ const initPageTransitions = () => {
     const mask = document.getElementById('page-mask');
     if (!mask) return;
 
-    // Slide up when page loads
-    window.addEventListener('load', () => {
-        setTimeout(() => mask.classList.add('slide-up'), 100);
-    });
+    // Slide up when page loads (or fallback strictly after 1.5s if CDNs hang)
+    let hasLoaded = false;
+    const hideMask = () => {
+        if (hasLoaded) return;
+        hasLoaded = true;
+        mask.classList.add('slide-up');
+    };
+
+    window.addEventListener('load', () => setTimeout(hideMask, 100));
+    setTimeout(hideMask, 1500); // Failsafe
 
     // Intercept links
     document.querySelectorAll('a').forEach(anchor => {
