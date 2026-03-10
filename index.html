@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoolBreeze Pro | Next Generation Personal Climate</title>
+    <!-- Prevent Theme FOUC -->
+    <script>
+        const theme = localStorage.getItem('premium_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <!-- Vercel Web Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+    
+    <!-- Custom Mouse Cursor -->
+    <div class="custom-cursor-dot" id="cursor-dot"></div>
+    <div class="custom-cursor-ring" id="cursor-ring"></div>
+
+    <!-- Page Transition Overlay -->
+    <div class="page-transition-mask" id="page-mask">
+        <div class="mask-logo">CoolBreeze</div>
+    </div>
+    
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Dynamic Three.js WebGL Container -->
+    <div id="webgl-canvas-container"></div>
+
+    <!-- Premium Glassmorphism Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            CoolBreeze Pro
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="active">Overview</a>
+            <a href="product.html">Specs & Buy</a>
+            <a href="stats.html">Data Lab</a>
+            <!-- Theme Toggle Button -->
+            <button id="theme-toggle-btn" class="theme-toggle" aria-label="Toggle Theme">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Massive Cinematic Hero Area -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="badge-premium">All-New Pro Cooling Engine v2.0</div>
+            <h1 class="decoder-text" data-value="Breathe Cold.">1010010 1100.</h1>
+            <h1 class="decoder-text" data-value="Live Better.">01110 010111.</h1>
+            <p>Introducing the complete redesign of portable cooling dynamics. Built for those who demand absolute climate control at an unbelievable price. A true masterpiece of thermal engineering.</p>
+            
+            <div class="hero-actions">
+                <a href="product.html" class="btn btn-primary">
+                    Order Now (₹500)
+                </a>
+                <a href="#features" class="btn btn-secondary">
+                    Discover More
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                </a>
+            </div>
+
+            <div class="hero-image-container">
+                <img src="images/1.png" onerror="this.src='https://images.unsplash.com/photo-1596489392231-15b6d5b00c6d?auto=format&fit=crop&q=80&w=1200'" alt="CoolBreeze Pro Unit in High Definition">
+            </div>
+        </div>
+    </header>
+
+    <!-- Infinite Premium Trust Marquee -->
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <div class="review-pill">
+                <div class="stars">★★★★★</div>
+                <p>"The build quality feels completely unmatched. It has completely transformed my workstation environment during peak summer."</p>
+                <div class="review-author">
+                    <div class="author-avatar">J</div>
+                    <div>
+                        <strong style="display: block;">Jonathan K.</strong>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Verified Buyer</span>
+                    </div>
+                </div>
+            </div>
+            <div class="review-pill">
+                <div class="stars">★★★★★</div>
+                <p>"Absolute silence combined with immense chilling power. Cannot believe I got this for ₹500. A true game-changer."</p>
+                <div class="review-author">
+                    <div class="author-avatar">S</div>
+                    <div>
+                        <strong style="display: block;">Sarah L.</strong>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Verified Buyer</span>
+                    </div>
+                </div>
+            </div>
+            <div class="review-pill">
+                <div class="stars">★★★★★</div>
+                <p>"The fluid dynamics inside this tiny beast are incredible. My electricity bill hasn't even noticed it's plugged in."</p>
+                <div class="review-author">
+                    <div class="author-avatar">M</div>
+                    <div>
+                        <strong style="display: block;">Michael R.</strong>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Tech Enthusiast</span>
+                    </div>
+                </div>
+            </div>
+            <div class="review-pill">
+                <div class="stars">★★★★★</div>
+                <p>"I take it everywhere. My bedroom, the study hall, my outdoor patio. Flawless execution and design."</p>
+                <div class="review-author">
+                    <div class="author-avatar">A</div>
+                    <div>
+                        <strong style="display: block;">Ananya T.</strong>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Verified Buyer</span>
+                    </div>
+                </div>
+            </div>
+             <div class="review-pill">
+                <div class="stars">★★★★★</div>
+                <p>"The build quality feels completely unmatched. It has completely transformed my workstation environment during peak summer."</p>
+                <div class="review-author">
+                    <div class="author-avatar">J</div>
+                    <div>
+                        <strong style="display: block;">Jonathan K.</strong>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Verified Buyer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Apple-Style Bento Grid Features Section -->
+    <section id="features" class="section section-darker">
+        <h2 class="section-title reveal decoder-text" data-value="Engineered for Extremes.">01100101 0110001</h2>
+        <p class="section-subtitle reveal delay-1">We threw away the rulebook on conventional fans and built a hyper-efficient microclimate engine from the ground up.</p>
+        
+        <div class="bento-grid">
+            <!-- Large Focus Feature -->
+            <div class="bento-item col-span-8 reveal-left delay-2">
+                <div class="bento-content">
+                    <h3>Aerodynamic Core Engine</h3>
+                    <p>Designed aerospace-grade turbines capable of shifting 400 cubic feet of air per hour while remaining practically silent. Precision milled to eliminate all resonance vibrations.</p>
+                </div>
+                <div class="bento-image-wrapper">
+                    <img src="images/2.png" onerror="this.src='https://images.unsplash.com/photo-1596489392231-15b6d5b00c6d?auto=format&fit=crop&q=80&w=600'" alt="Core Engine Diagram">
+                </div>
+            </div>
+
+            <!-- Small Detail Feature -->
+            <div class="bento-item col-span-4 reveal-right delay-3">
+                <div class="bento-icon">🛡️</div>
+                <div class="bento-content">
+                    <h3>Military-Grade Durability</h3>
+                    <p>Constructed utilizing woven carbon textures and high-density polycarbonates to withstand accidental drops and immense pressure. It feels entirely solid.</p>
+                </div>
+            </div>
+
+            <!-- Medium Feature -->
+            <div class="bento-item col-span-6 reveal-left delay-1">
+                <div class="bento-icon">⚡</div>
+                <div class="bento-content">
+                    <h3>Zero Emission Power</h3>
+                    <p>Draws a miniscule 5W of power via hyper-efficient USB-C delivery. Run it exclusively off your laptop or a standard pocket power bank for over 24 hours without worry.</p>
+                </div>
+            </div>
+
+            <!-- Medium Feature -->
+            <div class="bento-item col-span-6 reveal-right delay-2" style="background: linear-gradient(135deg, var(--bg-tertiary) 0%, rgba(59,130,246,0.1) 100%);">
+                <div class="bento-content">
+                    <h3>Hydro-Chill Matrix™</h3>
+                    <p>Our patented liquid cooling chamber atomsizes frozen water particles seamlessly into the air stream dropping temperatures deeply instantaneously.</p>
+                </div>
+                <div class="bento-image-wrapper">
+                    <img src="images/3.png" onerror="this.src='https://images.unsplash.com/photo-1596489392231-15b6d5b00c6d?auto=format&fit=crop&q=80&w=600'" alt="Water Cooling Matrix" style="transform: scale(1.1);">
+                </div>
+            </div>
+            
+            <div class="bento-item col-span-12 reveal-zoom delay-3" style="text-align: center; padding: 5rem 2rem; background: var(--bg-quaternary);">
+                <h3 style="font-size: 3rem; margin-bottom: 1.5rem; background: linear-gradient(to right, var(--text-primary), var(--text-muted)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Experience the Paradigm Shift.</h3>
+                <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 3rem;">Stop suffering through the heatwaves. Take absolute control of your surroundings today with engineering that makes a difference.</p>
+                <a href="product.html" class="btn btn-primary" style="font-size: 1.25rem;">Secure Yours Now for ₹500</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: How it Works Interactive Timeline -->
+    <section class="section">
+        <h2 class="section-title reveal">Simplicity at its Core.</h2>
+        <p class="section-subtitle reveal delay-1">Incredibly advanced technology disguised as three simple steps.</p>
+        
+        <div class="timeline-container">
+            <div class="timeline-step reveal-left delay-2">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <h3>1. Hydrate the Core</h3>
+                    <p>Simply remove the top sealed lid and pour in up to 500ml of cold water or drop in ice cubes. The hydrophobic seals ensure zero leakage entirely.</p>
+                </div>
+            </div>
+            <div class="timeline-step reveal-right delay-3">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <h3>2. Connect USB-C Power</h3>
+                    <p>Plug the included braided USB-C cable into any modern laptop, power brick, or portable battery bank. The smart-chip immediately negotiates secure low-voltage power.</p>
+                </div>
+            </div>
+            <div class="timeline-step reveal-left delay-4">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <h3>3. Select Thermal Mode</h3>
+                    <p>Tap the capacitive touch button to cycle through three distinct velocity curves ranging from a gentle breeze to a localized blizzard matrix.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: The Ultimate Comparison Table -->
+    <section class="section section-darker">
+        <h2 class="section-title reveal">Unmatched Superiority.</h2>
+        <p class="section-subtitle reveal delay-1">See how the CoolBreeze Pro stacks up against legacy cooling architectures.</p>
+        
+        <div class="comparison-container reveal-zoom delay-2">
+            <table class="comp-table">
+                <thead>
+                    <tr>
+                        <th style="width:40%;">Feature</th>
+                        <th style="width:20%;" class="pro-col">CoolBreeze Pro</th>
+                        <th style="width:20%;">Traditional Fans</th>
+                        <th style="width:20%;">Portable ACs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Active Temperature Reduction</td>
+                        <td class="pro-col">Up to -12°C</td>
+                        <td>0°C (Just moves air)</td>
+                        <td>-5°C to -15°C</td>
+                    </tr>
+                    <tr>
+                        <td>Power Consumption Profiles</td>
+                        <td class="pro-col">~5 Watts (Ultra-low)</td>
+                        <td>50-100 Watts</td>
+                        <td>900+ Watts</td>
+                    </tr>
+                    <tr>
+                        <td>Operational Noise (Acoustics)</td>
+                        <td class="pro-col">< 22 Decibels</td>
+                        <td>> 50 Decibels</td>
+                        <td>> 65 Decibels</td>
+                    </tr>
+                    <tr>
+                        <td>Portability Factor</td>
+                        <td class="pro-col"><span class="check-icon">✓</span> Pocket/Desk Ready</td>
+                        <td><span class="cross-icon">✗</span> Bulky</td>
+                        <td><span class="cross-icon">✗</span> Immovable Heavy</td>
+                    </tr>
+                    <tr>
+                        <td>Price Point</td>
+                        <td class="pro-col" style="color:var(--accent-success) !important;">₹500</td>
+                        <td>₹1,500+</td>
+                        <td>₹25,000+</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- NEW: FAQ Accordion Section -->
+    <section class="section">
+        <h2 class="section-title reveal">Frequently Asked Questions</h2>
+        <p class="section-subtitle reveal delay-1">Everything you need to know about the product and shipping.</p>
+        
+        <div class="faq-container reveal delay-2">
+            <div class="faq-item">
+                <div class="faq-question">
+                    Is the ₹500 price a subscription or one-time payment?
+                    <span class="faq-icon">↓</span>
+                </div>
+                <div class="faq-answer">
+                    It is an absolute one-time payment of exactly ₹500. There are no hidden fees, subscriptions, or shipping costs. This is an exclusive 48% off promotional launch pricing.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    How long does the water tank last?
+                    <span class="faq-icon">↓</span>
+                </div>
+                <div class="faq-answer">
+                    The ultra-efficient Hydro-Chill Matrix atomizes water very carefully. A full 500ml tank will last roughly 8 to 10 hours depending on the velocity setting you choose.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    Can it really run off a laptop?
+                    <span class="faq-icon">↓</span>
+                </div>
+                <div class="faq-answer">
+                    Yes. Because it utilizes a proprietary low-voltage (5W) chip, a standard USB port on a laptop provides more than sufficient power to run the device at maximum speed indefinitely.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    What if I don't use water or ice?
+                    <span class="faq-icon">↓</span>
+                </div>
+                <div class="faq-answer">
+                    It will function perfectly as an ultra-premium, silent desk fan pushing vast amounts of room-temperature air. The chilling effect requires the water matrix to be active, however.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Massive Premium Footer -->
+    <footer class="footer-premium">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo">CoolBreeze Pro</div>
+                <p>The definitive engineering solution for personal, sustainable microclimate control. Redefining your workspace comfort.</p>
+            </div>
+            <div>
+                <h4 class="footer-heading">Product Details</h4>
+                <div class="footer-links">
+                    <a href="product.html">Buy Now (48% Off)</a>
+                    <a href="index.html#features">Engineering Overview</a>
+                    <a href="#">Technical Specifications</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer-heading">Enterprise & Lab</h4>
+                <div class="footer-links">
+                    <a href="stats.html">Data Analytics Dashboard</a>
+                    <a href="#">Bulk Orders Configuration</a>
+                    <a href="#">Corporate Gifting Engine</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer-heading">Support Portal</h4>
+                <div class="footer-links">
+                    <a href="#">Warranty Claim Protocol</a>
+                    <a href="#">Shipping Tracking Matrix</a>
+                    <a href="#">Contact Engineering Support</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 CoolBreeze Dynamics Inc. All rights reserved. Registered Trademark.</p>
+            <div style="display: flex; gap: 2rem;">
+                <a href="#">Privacy Protocol</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Legal Arbitration</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

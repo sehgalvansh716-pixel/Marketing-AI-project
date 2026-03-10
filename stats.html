@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Lab | CoolBreeze Analytics</title>
+    <!-- Prevent Theme FOUC -->
+    <script>
+        const theme = localStorage.getItem('premium_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Vercel Web Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+    
+    <!-- Custom Mouse Cursor -->
+    <div class="custom-cursor-dot" id="cursor-dot"></div>
+    <div class="custom-cursor-ring" id="cursor-ring"></div>
+
+    <!-- Page Transition Overlay -->
+    <div class="page-transition-mask" id="page-mask">
+        <div class="mask-logo">CoolBreeze</div>
+    </div>
+    
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Dynamic Three.js WebGL Container -->
+    <div id="webgl-canvas-container"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            Data Lab Interface
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Overview</a>
+            <a href="product.html">Specs & Buy</a>
+            <a href="stats.html" class="active">Data Lab</a>
+            <!-- Theme Toggle Button -->
+            <button id="theme-toggle-btn" class="theme-toggle" aria-label="Toggle Theme">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </nav>
+
+    <div class="dashboard-header reveal">
+        <h1 class="decoder-text" data-value="Campaign Analytics Architecture">01101 011000</h1>
+        <p class="section-subtitle" style="margin-bottom:0;">Live telemetry tracking across distinct advertising networks. Segmented accurately without cookie bleeding.</p>
+        
+        <div class="ad-pill-container reveal delay-1">
+            <div class="ad-pill human-active">
+                <span></span> Source A: AI Human Identity
+            </div>
+            <div class="ad-pill autonomous-active">
+                <span></span> Source B: Pure Autonomous Agent
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Block -->
+    <div class="chart-container reveal-zoom delay-2">
+        <canvas id="conversionChart"></canvas>
+    </div>
+
+    <!-- Deep Stats Matrix -->
+    <div class="stats-breakdown">
+        
+        <!-- Human Campaign Stats -->
+        <div class="stat-panel stat-panel-human reveal-left delay-1">
+            <div class="panel-title human">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                AI Human Agent Output
+            </div>
+            
+            <div class="metric-row">
+                <span class="metric-label">Gross Landing Visits</span>
+                <span class="metric-data data-white" id="human-visits">0</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">High-Intent Views (Specs)</span>
+                <span class="metric-data data-white" id="human-views">0</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">Authorized Checkouts</span>
+                <span class="metric-data data-white" id="human-buys">0</span>
+            </div>
+            <div class="metric-row" style="margin-top: 1rem; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 2rem;">
+                <span class="metric-label" style="color:#34d399;">Conversion Density</span>
+                <span class="metric-data data-green" id="human-conv">0.00%</span>
+            </div>
+        </div>
+
+        <!-- AI Campaign Stats -->
+        <div class="stat-panel stat-panel-ai reveal-right delay-2">
+            <div class="panel-title ai">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                Autonomous Architecture Output
+            </div>
+            
+            <div class="metric-row">
+                <span class="metric-label">Gross Landing Visits</span>
+                <span class="metric-data data-white" id="ai-visits">0</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">High-Intent Views (Specs)</span>
+                <span class="metric-data data-white" id="ai-views">0</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">Authorized Checkouts</span>
+                <span class="metric-data data-white" id="ai-buys">0</span>
+            </div>
+            <div class="metric-row" style="margin-top: 1rem; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 2rem;">
+                <span class="metric-label" style="color:#60a5fa;">Conversion Density</span>
+                <span class="metric-data data-blue" id="ai-conv">0.00%</span>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Telemetry Simulation & Controls -->
+    <div class="control-panel reveal delay-3">
+        <h3 class="decoder-text" data-value="Lab Controls & Simulation Target" style="margin-bottom: 1.5rem; font-size: 1.5rem;">011100 01010</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Use these routing URLs to trigger isolated tracker environments for your social media campaigns, or watch the live active simulation output below.</p>
+        
+        <!-- NEW: V4 Active Live Terminal Node -->
+        <div class="live-terminal-container">
+            <div class="terminal-header">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot yellow"></span>
+                <span class="terminal-dot green"></span>
+                <span style="margin-left:auto; font-size:0.8rem; color:var(--text-muted);">node//autonomous-proc</span>
+            </div>
+            <div class="terminal-body" id="live-terminal">
+                <div class="terminal-line"><span class="cmd-cyan">sys:</span> Booting telemetry interface...</div>
+                <div class="terminal-line"><span class="cmd-green">ok:</span> Successfully connected to Datacenter Subnet Alpha.</div>
+                <div class="terminal-line"><span class="cmd-yellow">warn:</span> Awaiting active traffic from advertising algorithms.</div>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2.5rem; flex-wrap: wrap;">
+            <a href="index.html?ad=human" target="_blank" class="sim-link sim-link-human">
+                Launch Human Node
+            </a>
+            <a href="index.html?ad=autonomous" target="_blank" class="sim-link sim-link-ai">
+                Launch Autonomous Node
+            </a>
+        </div>
+        
+        <button id="purge-btn" class="btn btn-secondary">
+            Purge All Telemetry
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const stats = JSON.parse(localStorage.getItem('premium_ecommerce_stats'));
+            if (!stats) return;
+
+            // DOM Insertion
+            const hs = stats.human;
+            const as = stats.autonomous;
+
+            document.getElementById('human-visits').innerText = hs.totalVisits;
+            document.getElementById('human-views').innerText = hs.productViews;
+            document.getElementById('human-buys').innerText = hs.buyClicks;
+            
+            let hConv = hs.totalVisits > 0 ? ((hs.buyClicks / hs.totalVisits) * 100).toFixed(2) : "0.00";
+            document.getElementById('human-conv').innerText = hConv + '%';
+
+            document.getElementById('ai-visits').innerText = as.totalVisits;
+            document.getElementById('ai-views').innerText = as.productViews;
+            document.getElementById('ai-buys').innerText = as.buyClicks;
+            
+            let aConv = as.totalVisits > 0 ? ((as.buyClicks / as.totalVisits) * 100).toFixed(2) : "0.00";
+            document.getElementById('ai-conv').innerText = aConv + '%';
+
+            // Chart Generation
+            const ctx = document.getElementById('conversionChart').getContext('2d');
+            
+            // Adjust chart theme based on current mode
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const gridColor = isLight ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.05)';
+            const textColor = isLight ? '#52525b' : '#a1a1aa';
+
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Site Visits', 'Product Checkouts', 'Purchases'],
+                    datasets: [
+                        {
+                            label: 'AI Human Campaign',
+                            data: [hs.totalVisits, hs.productViews, hs.buyClicks],
+                            backgroundColor: 'rgba(52, 211, 153, 0.8)',
+                            borderColor: 'rgba(52, 211, 153, 1)',
+                            borderWidth: 1,
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'AI Autonomous Campaign',
+                            data: [as.totalVisits, as.productViews, as.buyClicks],
+                            backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 1,
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    color: textColor,
+                    plugins: {
+                        legend: { position: 'top', labels: { color: textColor, font: { family: "'Inter', sans-serif", size: 14 } } },
+                        tooltip: { backgroundColor: 'rgba(10,10,11,0.9)', titleFont: { size: 14, family: "'Inter', sans-serif" }, padding: 12, cornerRadius: 8 }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor, font: { family: "'JetBrains Mono', monospace" } } },
+                        x: { grid: { display: false }, ticks: { color: textColor, font: { family: "'Inter', sans-serif", weight: '600' } } }
+                    }
+                }
+            });
+
+            // Purge Engine
+            document.getElementById('purge-btn').addEventListener('click', () => {
+                const conf = confirm("WARNING: Destructive Action. This will permanently wipe all local session telemetry. Proceed?");
+                if(conf){
+                    localStorage.removeItem('premium_ecommerce_stats');
+                    sessionStorage.removeItem('premium_session_visited');
+                    sessionStorage.removeItem('premium_product_viewed');
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
